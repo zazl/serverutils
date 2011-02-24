@@ -1,0 +1,21 @@
+Build v8 with arch set to X64
+
+scons arch=x64
+
+
+Build v8javabridge
+
+Create an X-Code project and add a new BSD Dynamic Library Target called v8javabridge
+
+To this target add a JavaVM.framework Linked Libary and a libv8.a Linked Library (libv8.a is what is produced by the V8 build)
+
+
+On the Build Tab for the taret add the following paths as Header Search Paths
+/Users/rbackhouse/dev/zazl/v8build/v8/src 
+/System/Library/Frameworks/JavaVM.framework/Headers 
+
+Change the "Executable Extension" to be jnilib
+
+Modify v8javabridge.cpp and change "#define V8_TARGET_ARCH_IA32 1" to "#define V8_TARGET_ARCH_X64 1"
+
+Run the build and the output should be libv8javabridge.jnilib

@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: V8 Plug-in
+Bundle-SymbolicName: org.dojotoolkit.rt.v8;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Import-Package: org.dojotoolkit.json,
+ org.osgi.framework;version="1.3.0"
+Bundle-NativeCode: /nativelib/win32/v8javabridge.dll;osname=Win32;processor=x86,
+ /nativelib/linux.x86/libv8javabridge.so;osname=linux;processor=x86,
+ /nativelib/macosx.x86-64/libv8javabridge.jnilib;osname=MacOSX;processor=x86-64,
+ /nativelib/macosx.x86/libv8javabridge.jnilib;osname=MacOSX;processor=x86,
+ *
+Export-Package: org.dojotoolkit.rt.v8

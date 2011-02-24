@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Nodejs Server Util
+Bundle-SymbolicName: org.dojotoolkit.server.util.nodejs
+Bundle-Version: 1.0.0.qualifier
