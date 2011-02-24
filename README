@@ -1,0 +1,70 @@
+Dojo Zazl
+---------
+
+Enables developers to run Javascript on the server to render dynamic web pages using the Dojo Toolkit’s implementation of the Django Template Language.
+
+Quick Start using NodeJS
+------------------------
+
+Install NodeJS (>= ver 0.4.0)
+
+The NodeJS package has some prereqs that need to be installed before attempting to use :
+
+1)    paperboy (npm install paperboy)
+2)    uglify-js (npm install uglify-js)
+3)    jsdom (npm install jsdom)
+
+Once these are installed untar the zazlnodejs.taz.gz file into a directory and within that directory run :
+
+node zazlserver.js <path to files> <path to dojo>
+
+The tar file contains samples and also a copy of Dojo 1.5.0 (required by both Zazl and the samples)
+In this case to start run :
+
+node zazlserver.js ./samples ./dojo
+
+Open a browser and point it to http://localhost:8080/index.html
+
+Quick Start using Jetty Server
+------------------------------
+
+Select the archive file for your platform (32Bit Windows, 32Bit Linux or 32/64Bit Mac) and uncompressed to your preferred <zazl-install-directory>
+
+To start the server you must do the following:
+
+1. Open a command prompt and point it to the directory: <zazl-install-directory>/server
+
+2. To start Zazl with Rhino:
+(Windows) run-zazl-rhino.bat
+(Linux/Mac) ./run-zazl-rhino.sh
+
+To start Zazl with V8:
+(Windows) run-zazl-v8.bat
+(Linux/Mac) ./run-zazl-v8.sh
+
+3. Open a browser to http://localhost:8080/index.html
+
+Setting up a Development Environment
+------------------------------------
+
+1) Make a directory called "zazldev" and cd into it.
+2) Download the zazlbuild.zip, zazltargetplatform.zip and unzip into the "zazldev" directory. 
+3) Clone the Zazl git repo (git clone git://github.com/rbackhouse/zazl.git)
+
+To build without Eclipse :
+1) cd into "zazlbuild"
+2) Build Zazl via zazlbuild.sh or zazlbuild.bat. The built binaries should be in the subdirectory "zazl/package".
+
+To develop and build with Eclipse:
+1) Download a copy of Eclipse 3.6 (http://www.eclipse.org/downloads/)
+2) Start Eclipse and point it to the "zazldev/zazl" directory. 
+3) Import the projects found in the "zazldev/zazl" directory via "File->Import->General->Existing Projects into Workspace".
+4) Initially you will have some compile errors
+5) Open the "/org.dojotoolkit.zazl.feature/zazltarget.target" file and click the "Set as Target Platform" link in the top right-hand corner. This should make the compile errors go away.
+6) To test select the "Run->Run Configurations" menu option, then run the "Zazl Jetty Server (v8)" launch under the OSGi Framework section.
+7) In the OSGi console you should see :
+
+osgi> 2011-02-24 10:41:35.192:INFO::Logging to STDERR via org.mortbay.log.StdErrLog
+Browse demos at "http://localhost:8080/index.html"
+
+6) Open a browser to http://localhost:8080/index.html
