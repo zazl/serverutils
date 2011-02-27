@@ -67,4 +67,29 @@ To develop and build with Eclipse:
 osgi> 2011-02-24 10:41:35.192:INFO::Logging to STDERR via org.mortbay.log.StdErrLog
 Browse demos at "http://localhost:8080/index.html"
 
-6) Open a browser to http://localhost:8080/index.html
+8) Open a browser to http://localhost:8080/index.html
+
+Zazl Build Component
+--------------------
+
+The zazl build component includes a copy of Apache Ant and ant4eclipse to enable building without using eclipse itself. Within the “zazlbuild” directory there are scripts to build the Zazl binaries :
+
+    * optimizerbuild.bat/optimizerbuild.sh – Builds the JS Optimizer example WAR file. It will be located in “zazlbuild/optimizer/package”
+    * zazlbuild.bat/zazlbuild.sh – Builds the Zazl binaries. They will be located in “zazlbuild/zazl/package”
+    * buildzazlnodejs.sh – Builds the Zazl for nodeJS package “zazlnodejs.tar.gz”
+
+Zazl Eclipse Target Platform
+----------------------------
+
+The Zazl Target Platform zip file (zazltargetplatform.zip) contains the prereqs that Zazl requires. They are currently :
+
+    * Dojo
+    * Eclipse Equinox
+    * Apache HTTP Client/Core
+    * JSON (https://github.com/douglascrockford/JSON-js)
+    * JSP
+    * RequireJS
+    * Mozilla Rhino
+    * Dojo Shrinksafe
+    * Uglify-JS
+
