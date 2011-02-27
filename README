@@ -72,11 +72,11 @@ Browse demos at "http://localhost:8080/index.html"
 Zazl Build Component
 --------------------
 
-The zazl build component includes a copy of Apache Ant and ant4eclipse to enable building without using eclipse itself. Within the “zazlbuild” directory there are scripts to build the Zazl binaries :
+The zazl build component includes a copy of Apache Ant and ant4eclipse to enable building without using eclipse itself. Within the "zazlbuild" directory there are scripts to build the Zazl binaries :
 
-    * optimizerbuild.bat/optimizerbuild.sh – Builds the JS Optimizer example WAR file. It will be located in “zazlbuild/optimizer/package”
-    * zazlbuild.bat/zazlbuild.sh – Builds the Zazl binaries. They will be located in “zazlbuild/zazl/package”
-    * buildzazlnodejs.sh – Builds the Zazl for nodeJS package “zazlnodejs.tar.gz”
+    * optimizerbuild.bat/optimizerbuild.sh - Builds the JS Optimizer example WAR file. It will be located in "zazlbuild/optimizer/package"
+    * zazlbuild.bat/zazlbuild.sh - Builds the Zazl binaries. They will be located in "zazlbuild/zazl/package"
+    * buildzazlnodejs.sh - Builds the Zazl for nodeJS package "zazlnodejs.tar.gz"
 
 Zazl Eclipse Target Platform
 ----------------------------
