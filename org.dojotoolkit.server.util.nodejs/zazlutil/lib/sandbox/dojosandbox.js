@@ -37,7 +37,7 @@ XMLHttpRequest.prototype = {
 		}
 		var port = requestURL.hostname === undefined ? 8080 : requestURL.port || 80;
 		var options = {
-			host: requestURL.hostname || "localhost",
+			host: requestURL.hostname || "127.0.0.1",
 			port: port,
 			path: requestURL.pathname + query,
 			method: this.method
@@ -50,8 +50,8 @@ XMLHttpRequest.prototype = {
 			scope.readyState = 3;
 			scope.onreadystatechange();
 		}).on('error', function(e) {
-			scope.status = e.statusCode;
-			scope.statusText = "Error";
+			scope.status = 500;
+			scope.statusText = e.message;
 			scope.readyState = 4;
 			scope.onreadystatechange();
 		}).on('response', function (response) {
