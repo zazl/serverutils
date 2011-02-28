@@ -24,6 +24,10 @@ public abstract class CachingResourceLoader implements ResourceLoader {
 		timestampLookup = new HashMap<String, File>();
 	}
 
+	public URL getResource(String path) throws IOException {
+		return _getResource(normalizePath(path));
+	}
+
 	public long getTimestamp(String path) {
 		File file = timestampLookup.get(normalizePath(path));
 		if (file != null) {
