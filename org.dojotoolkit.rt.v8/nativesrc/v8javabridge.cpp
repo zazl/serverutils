@@ -10,10 +10,12 @@ using namespace std;
 v8::Handle<v8::Value> Print(const v8::Arguments& args);
 v8::Handle<v8::Value> ReadText(const v8::Arguments& args);
 v8::Handle<v8::Value> Load(const v8::Arguments& args);
+v8::Handle<v8::Value> LoadCommonJSModule(const v8::Arguments& args);
 v8::Handle<v8::Value> CallbackHandler(const v8::Arguments& args);
 v8::Handle<v8::Value> SetInterval(const v8::Arguments& args);
 v8::Handle<v8::Value> ClearInterval(const v8::Arguments& args);
 
+v8::Handle<v8::ObjectTemplate> CreateGlobal();
 const char * readText(JNIEnv * env, jobject jobj, const char * url);
 void ReportException(v8::TryCatch* handler, JNIEnv * env);
 void ReportCompileError(v8::TryCatch* handler, JNIEnv * env, jobject jobj);
@@ -36,8 +38,8 @@ JNIEXPORT jstring JNICALL Java_org_dojotoolkit_rt_v8_V8JavaBridge_runScriptInV8W
 
 	global->Set(v8::String::New("print"), v8::FunctionTemplate::New(Print));
 	global->Set(v8::String::New("readText"), v8::FunctionTemplate::New(ReadText));
-	global->Set(v8::String::New("zazlLoad"), v8::FunctionTemplate::New(Load));
 	global->Set(v8::String::New("loadJS"), v8::FunctionTemplate::New(Load));
+	global->Set(v8::String::New("loadCommonJSModule"), v8::FunctionTemplate::New(LoadCommonJSModule));
 	global->Set(v8::String::New("setInterval"), v8::FunctionTemplate::New(SetInterval));
 	global->Set(v8::String::New("clearInterval"), v8::FunctionTemplate::New(ClearInterval));
 
@@ -181,6 +183,67 @@ v8::Handle<v8::Value> Load(const v8::Arguments& args) {
 			v8::Handle<v8::Value> result = script->Run();
 			return result;
 		}
+	}
+	else {
+		return v8::Null();
+	}
+}
+
+v8::Handle<v8::Value> LoadCommonJSModule(const v8::Arguments& args) {
+    v8::HandleScope handle_scope;
+	
+	v8::Handle<v8::Context> context = v8::Context::GetCalling();
+	
+	v8::Local<v8::Value> envValue = context->Global()->Get(v8::String::New("jniEnv"));
+	v8::Local<v8::External> extEnv = v8::External::Cast(*envValue);
+	JNIEnv * env = (JNIEnv *) extEnv->Value();
+	
+	v8::Local<v8::Value> jobjectValue = context->Global()->Get(v8::String::New("jobject"));
+	v8::Local<v8::External> extjobject = v8::External::Cast(*jobjectValue);
+	jobject jobj = (jobject) extjobject->Value();
+	
+	v8::String::Utf8Value str(args[0]);
+	
+	const char* url = *str;
+	
+	const char *textRead = readText(env, jobj, url);
+	if (textRead != NULL) {
+		v8::Handle<v8::Value> result = v8::Null();
+		v8::Handle<v8::ObjectTemplate> global = CreateGlobal();
+		v8::Handle<v8::Context> moduleContext = v8::Context::New(NULL, global);
+		v8::Handle<v8::Value> requireValue = context->Global()->Get(v8::String::New("require"));
+		v8::Context::Scope context_scope(moduleContext);
+		//moduleContext->Enter();
+		moduleContext->Global()->Set(v8::String::New("require"), requireValue);
+		moduleContext->Global()->Set(v8::String::New("jniEnv"), v8::External::New(env));
+		moduleContext->Global()->Set(v8::String::New("jobject"), v8::External::New(jobj));
+
+		v8::Handle<v8::String> text = v8::String::New(textRead);
+		v8::TryCatch try_catch;
+		v8::Handle<v8::Script> script = v8::Script::New(text, args[0]->ToString());
+		
+		if (script.IsEmpty()) {
+			ReportCompileError(&try_catch, env, jobj);
+		} else {
+			v8::Local<v8::Object> module = args[1]->ToObject();
+			v8::Local<v8::Array> keys = module->GetPropertyNames();
+			
+			unsigned int i;
+			for (i = 0; i < keys->Length(); i++) {
+				v8::Handle<v8::String> key = keys->Get(v8::Integer::New(i))->ToString();
+				v8::String::Utf8Value keystr(key);
+				v8::Handle<v8::Value> value = module->Get(key);
+				moduleContext->Global()->Set(key, value);
+			}
+
+			result = script->Run();
+			if (try_catch.HasCaught()) {
+				ReportException(&try_catch, env);
+			}
+		}
+		//moduleContext->DetachGlobal();
+		//moduleContext->Exit();
+		return result;
 	}
 	else {
 		return v8::Null();
@@ -383,3 +446,14 @@ v8::Handle<v8::Value> ClearInterval(const v8::Arguments& args) {
 	return v8::Undefined();
 }
 
+v8::Handle<v8::ObjectTemplate> CreateGlobal() {
+	v8::Handle<v8::ObjectTemplate> global = v8::ObjectTemplate::New();
+	
+	global->Set(v8::String::New("print"), v8::FunctionTemplate::New(Print));
+	global->Set(v8::String::New("readText"), v8::FunctionTemplate::New(ReadText));
+	global->Set(v8::String::New("loadJS"), v8::FunctionTemplate::New(Load));
+	global->Set(v8::String::New("loadCommonJSModule"), v8::FunctionTemplate::New(LoadCommonJSModule));
+	global->Set(v8::String::New("setInterval"), v8::FunctionTemplate::New(SetInterval));
+	global->Set(v8::String::New("clearInterval"), v8::FunctionTemplate::New(ClearInterval));
+	return global;
+}

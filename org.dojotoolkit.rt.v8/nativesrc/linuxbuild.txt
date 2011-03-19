@@ -1,6 +1,5 @@
 Build v8
 
-export GCC_VERSION=44
-Modify Sconstruct using the changes from /org.dojotoolkit.rt.v8/nativesrc/no-strict-aliasing.patch 
+unzip v8src.zip and run scons
 
 g++ -shared -o libv8javabridge.so -Wl,-soname,libv8javabridge.so -fPIC -I/home/rbackhouse/v8/src -I/usr/lib/jvm/java-6-sun/include -I/usr/lib/jvm/java-6-sun/include/linux -Isrc v8javabridge.cpp -static -lc -L/home/rbackhouse/v8 -lv8

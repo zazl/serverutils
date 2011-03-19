@@ -1,0 +1,23 @@
+Follow the instructions to build v8 at http://code.google.com/p/v8/wiki/BuildingOnWindows
+
+Create a Visual C++ Express 2008 project and add the v8javabridge.cpp and v8javabridge.h files to it
+
+Required includes (may vary on the location of the installed jvm) :
+
+C:\Program Files\Java\jdk1.6.0_18\include\win32
+C:\Program Files\Java\jdk1.6.0_18\include
+C:\dev\v8dev\v8src\v8\src
+
+Required Lib :
+v8.lib from the v8 build. To set in Visual C++ Express 2008 
+
+Tools->Options->Projects and Solutions->VC++ Directories->Show Directories For->Libraries files
+
+Add the path to the v8.lib file.
+
+Compiler command line :
+
+/O2 /Oi /GL /I "C:\Program Files\Java\jdk1.6.0_18\include\win32" /I "C:\Program Files\Java\jdk1.6.0_18\include" /I "C:\dev\v8dev\v8src\v8\src" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /D "V8JAVABRIDGE_EXPORTS" /D "_WINDLL" /D "_UNICODE" /D "UNICODE" /FD /EHsc /MT /Gy /Fo"Release\\" /Fd"Release\vc90.pdb" /W3 /nologo /c /Zi /TP /errorReport:prompt
+Linker command line :
+
+/OUT:"C:\Users\Richard Backhouse\dev\v8javabridge\Release\v8javabridge.dll" /INCREMENTAL:NO /NOLOGO /DLL /MANIFEST /MANIFESTFILE:"Release\v8javabridge.dll.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /DYNAMICBASE /NXCOMPAT /MACHINE:X86 /ERRORREPORT:PROMPT v8.lib WSock32.Lib Winmm.lib WS2_32.lib  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib

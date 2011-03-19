@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.dojotoolkit.prereq.dojo15"
+      label="Dojo 1.5.0 Feature"
+      version="1.5.0">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <plugin
+         id="org.dojotoolkit.dojo"
+         download-size="0"
+         install-size="0"
+         version="1.5.0"/>
+
+</feature>

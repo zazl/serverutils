@@ -1,7 +1,19 @@
 Build v8 with arch set to X64
+Modify v8javabridge.cpp changing
+ 
+#define V8_TARGET_ARCH_IA32 1
+ 
+to
 
+#define V8_TARGET_ARCH_X64 1
+
+To build V8 for 64bit run
+ 
 scons arch=x64
 
+To build V8 for 32bit run
+
+scons
 
 Build v8javabridge
 

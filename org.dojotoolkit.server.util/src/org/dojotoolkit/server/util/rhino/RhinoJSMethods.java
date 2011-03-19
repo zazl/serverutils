@@ -29,7 +29,7 @@ public class RhinoJSMethods {
 	private static final String CLASSLOADER = "classloader"; //$NON-NLS-1$
 	private static final String USE_CACHE = "useCache"; //$NON-NLS-1$
 	private static final String DEBUG = "debug"; //$NON-NLS-1$
-	private static final String LOAD_JS_WITH_EXPORTS = "loadJSWithExports"; //$NON-NLS-1$
+	private static final String LOAD_COMMON_JS_MODULE = "loadCommonJSModule"; //$NON-NLS-1$
 	
 	public static void initScope(ScriptableObject scope, ResourceLoader resourceLoader, RhinoClassLoader rhinoClassLoader, boolean useCache, boolean debug) {
     	Method[] methods = RhinoJSMethods.class.getMethods();
@@ -46,9 +46,9 @@ public class RhinoJSMethods {
     			FunctionObject f = new FunctionObject(LOAD, methods[i], scope);
     			scope.defineProperty(LOAD, f, ScriptableObject.DONTENUM);
     		}
-    		else if (methods[i].getName().equals(LOAD_JS_WITH_EXPORTS)) {
-    			FunctionObject f = new FunctionObject(LOAD_JS_WITH_EXPORTS, methods[i], scope);
-    			scope.defineProperty(LOAD_JS_WITH_EXPORTS, f, ScriptableObject.DONTENUM);
+    		else if (methods[i].getName().equals(LOAD_COMMON_JS_MODULE)) {
+    			FunctionObject f = new FunctionObject(LOAD_COMMON_JS_MODULE, methods[i], scope);
+    			scope.defineProperty(LOAD_COMMON_JS_MODULE, f, ScriptableObject.DONTENUM);
     		}
     	}
     	scope.associateValue(RESOURCE_LOADER, resourceLoader);
@@ -147,12 +147,11 @@ public class RhinoJSMethods {
 		return null;
     }
 	
-
-	public static Object loadJSWithExports(Context cx, Scriptable thisObj, Object[] args, Function funObj) {
+	public static Object loadCommonJSModule(Context cx, Scriptable thisObj, Object[] args, Function funObj) {
     	RhinoClassLoader classloader = (RhinoClassLoader)((ScriptableObject)thisObj).getAssociatedValue("classloader");
 		String resource = Context.toString(args[0]);
 		try {
-			logger.logp(Level.FINER, RhinoJSMethods.class.getName(), "loadJSWithExports", "Loading class for ["+resource+"]");
+			logger.logp(Level.FINER, RhinoJSMethods.class.getName(), "loadCommonJSModule", "Loading class for ["+resource+"]");
 			URI uri = new URI(resource);
 			resource = uri.normalize().getPath();
 			if (resource.charAt(0) == '/') {
@@ -162,17 +161,12 @@ public class RhinoJSMethods {
 				resource = resource.substring(0, resource.indexOf('.'));
 			}
 			resource = resource.replace('/', '.');
-			logger.logp(Level.FINER, RhinoJSMethods.class.getName(), "loadJSWithExports", "Normalized path = ["+resource+"]");
-			Scriptable scope = cx.newObject(thisObj);
-			scope.setParentScope(thisObj);
-			scope.put("exports", scope, args[1]);
-
-			return classloader.loadJS(resource, cx, scope);
-			
+			logger.logp(Level.FINER, RhinoJSMethods.class.getName(), "loadCommonJSModule", "Normalized path = ["+resource+"]");
+			Scriptable moduleContext = Context.toObject(args[1], thisObj);
+			return classloader.loadJS(resource, cx, moduleContext);
 		} catch (URISyntaxException e) {
-			logger.logp(Level.SEVERE, RhinoJSMethods.class.getName(), "loadJSWithExports", "Failed to normalize ["+resource+"]", e);
+			logger.logp(Level.SEVERE, RhinoJSMethods.class.getName(), "loadCommonJSModule", "Failed to normalize ["+resource+"]", e);
 		}
-		
 		return null;
 	}
 }
