@@ -1,3 +1,11 @@
+/*
+    Copyright (c) 2004-2011, The Dojo Foundation All Rights Reserved.
+    Available via Academic Free License >= 2.1 OR the modified BSD license.
+    see: http://dojotoolkit.org/license for details
+*/
+
+// Copied from https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/array/reduce
+
 if (!Array.prototype.reduce)
 {
   Array.prototype.reduce = function(fun /* , initialValue */)
