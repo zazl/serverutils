@@ -1,5 +1,4 @@
 bin/
 .metadata/
 compile*feature.xml
-*.launch
 clientdb.xml
