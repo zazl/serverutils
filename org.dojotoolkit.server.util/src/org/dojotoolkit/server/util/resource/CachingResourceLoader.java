@@ -6,7 +6,6 @@
 package org.dojotoolkit.server.util.resource;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -17,11 +16,11 @@ import java.util.Map;
 
 public abstract class CachingResourceLoader implements ResourceLoader {
 	protected Map<String, StringBuffer> cache = null;
-	protected Map<String, File> timestampLookup = null;
+	protected Map<String, URL> timestampLookup = null;
 	
 	public CachingResourceLoader() {
 		cache = new HashMap<String, StringBuffer>();
-		timestampLookup = new HashMap<String, File>();
+		timestampLookup = new HashMap<String, URL>();
 	}
 
 	public URL getResource(String path) throws IOException {
@@ -29,9 +28,13 @@ public abstract class CachingResourceLoader implements ResourceLoader {
 	}
 
 	public long getTimestamp(String path) {
-		File file = timestampLookup.get(normalizePath(path));
-		if (file != null) {
-			return file.lastModified();
+		URL url = timestampLookup.get(normalizePath(path));
+		if (url != null) {
+			try {
+				return url.openConnection().getLastModified();
+			} catch (IOException e) {
+				return -1;
+			}
 		} else {
 			return -1;
 		}
