@@ -10,6 +10,7 @@ var pro = require("uglify-js").uglify;
 
 var providerPaths = [];
 var ignoreList = [/dojo\/_base\/html.js/];
+var cache = {};
 
 exports.addProvider = function(providerPath) {
 	//console.log("provider path ["+providerPath+"] added");
@@ -19,6 +20,13 @@ exports.addProvider = function(providerPath) {
 exports.addProvider(path.dirname(module.filename));
 
 exports.readText = function(filePath, compress) {
+    filePath = String(filePath);
+    if (filePath.charAt(0) === '/') {
+        filePath = filePath.substring(1);
+    }
+	if (cache[filePath] !== undefined) {
+		return cache[filePath];
+	}
 	if (compress === undefined) {
 		compress = true;
 	}
@@ -35,6 +43,7 @@ exports.readText = function(filePath, compress) {
                 	contents += ";";
                 }
         	}
+        	cache[filePath] = contents;
         	break;
         }
     }
