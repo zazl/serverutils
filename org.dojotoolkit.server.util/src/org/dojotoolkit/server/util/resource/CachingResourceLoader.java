@@ -15,8 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class CachingResourceLoader implements ResourceLoader {
-	protected Map<String, StringBuffer> cache = null;
-	protected Map<String, URL> timestampLookup = null;
+	private Map<String, StringBuffer> cache = null;
+	private Map<String, URL> timestampLookup = null;
 	
 	public CachingResourceLoader() {
 		cache = new HashMap<String, StringBuffer>();
@@ -27,7 +27,7 @@ public abstract class CachingResourceLoader implements ResourceLoader {
 		return _getResource(normalizePath(path));
 	}
 
-	public long getTimestamp(String path) {
+	public synchronized long getTimestamp(String path) {
 		URL url = timestampLookup.get(normalizePath(path));
 		if (url != null) {
 			try {
@@ -105,6 +105,10 @@ public abstract class CachingResourceLoader implements ResourceLoader {
 	
 	protected StringBuffer filter(StringBuffer sb, String path, boolean useCache) throws IOException {
 		return sb;
+	}
+	
+	protected synchronized void trackURL(String path, URL url) {
+		timestampLookup.put(path, url);
 	}
 	
 	protected abstract URL _getResource(String path) throws IOException;
