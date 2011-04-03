@@ -1,7 +1,8 @@
 Dojo Zazl
 ---------
 
-Enables developers to run Javascript on the server to render dynamic web pages using the Dojo Toolkit’s implementation of the Django Template Language.
+Enables developers to run Javascript on the server to render dynamic web pages using the Dojo Toolkit’s implementation of the Django Template Language. 
+Also provides Dynamic JavaScript optimizers for the Dojo sync loader and AMD loaders.
 
 Quick Start using NodeJS
 ------------------------
@@ -16,21 +17,19 @@ The NodeJS package has some prereqs that need to be installed before attempting 
 
 Once these are installed untar the zazlnodejs.taz.gz file into a directory and within that directory run :
 
-node zazlserver.js <path to files> <path to dojo>
+node zazlserver.js <path to files> <path to dojo> <loaderconfig file (defaults to syncloader.json)>
 
-The tar file contains samples and also a copy of Dojo 1.5.0 (required by both Zazl and the samples)
-In this case to start run :
+The tar file contains samples and also a copy of Dojo 1.5 (required by both Zazl and the samples) and Dojo 1.6 (used for the AMD optimizer samples)
+
+To run the sync loader based samples use :
 
 node zazlserver.js ./samples ./dojo15
 
-Open a browser and point it to http://localhost:8080/index.html
-
-The zazlnodejs tar file now contains some samples demonstrating an dynamic optimizer for AMD. 
-To run them :
+To run the AMD optimizer samples use :
 
 node zazlserver.js ./amdsamples ./dojo16 requirejs.json
 
-Open a browser and point it to http://localhost:8080/index.html
+In both cases open a browser and point it to http://localhost:8080/index.html
 
 Quick Start using Jetty Server
 ------------------------------
@@ -83,7 +82,6 @@ The zazl build component includes a copy of Apache Ant and ant4eclipse to enable
 
     * optimizerbuild.bat/optimizerbuild.sh - Builds the JS Optimizer example WAR file. It will be located in "zazlbuild/optimizer/package"
     * zazlbuild.bat/zazlbuild.sh - Builds the Zazl binaries. They will be located in "zazlbuild/zazl/package"
-    * buildzazlnodejs.sh - Builds the Zazl for nodeJS package "zazlnodejs.tar.gz"
 
 Zazl Eclipse Target Platform
 ----------------------------
