@@ -9,7 +9,11 @@ var jsp = require("uglify-js").parser;
 var pro = require("uglify-js").uglify;
 
 var providerPaths = [];
-var ignoreList = [/dojo\/_base\/html.js/];
+var ignoreList = [
+	/dojo\/_base\/html.js/,
+	/dojo\/dojo.js/,
+	/.*\/nls\/.*/
+];
 var cache = {};
 
 exports.addProvider = function(providerPath) {
