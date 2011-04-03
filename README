@@ -21,7 +21,14 @@ node zazlserver.js <path to files> <path to dojo>
 The tar file contains samples and also a copy of Dojo 1.5.0 (required by both Zazl and the samples)
 In this case to start run :
 
-node zazlserver.js ./samples ./dojo
+node zazlserver.js ./samples ./dojo15
+
+Open a browser and point it to http://localhost:8080/index.html
+
+The zazlnodejs tar file now contains some samples demonstrating an dynamic optimizer for AMD. 
+To run them :
+
+node zazlserver.js ./amdsamples ./dojo16 requirejs.json
 
 Open a browser and point it to http://localhost:8080/index.html
 
@@ -88,8 +95,8 @@ The Zazl Target Platform zip file (zazltargetplatform.zip) contains the prereqs 
     * Apache HTTP Client/Core
     * JSON (https://github.com/douglascrockford/JSON-js)
     * JSP
-    * RequireJS
+    * RequireJS (v0.24.0)
     * Mozilla Rhino
     * Dojo Shrinksafe
-    * Uglify-JS
+    * Uglify-JS (v1.0)
 
