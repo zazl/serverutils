@@ -46,7 +46,7 @@ var root = root || "/";
 	
 	var normalize = function(path) {
 		var segments = path.split('/');
-		var skip = false;
+		var skip = 0;
 
 		for (var i = segments.length; i >= 0; i--) {
 			var segment = segments[i];
@@ -54,10 +54,10 @@ var root = root || "/";
 				segments.splice(i, 1);
 			} else if (segment === '..') {
 				segments.splice(i, 1);
-				skip = true;
+				skip++;
 			} else if (skip) {
 				segments.splice(i, 1);
-				skip = false;
+				skip--;
 			}
 		}
 		return segments.join('/');
