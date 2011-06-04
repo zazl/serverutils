@@ -16,11 +16,11 @@ import java.util.Map;
 
 public abstract class CachingResourceLoader implements ResourceLoader {
 	private Map<String, StringBuffer> cache = null;
-	private Map<String, URL> timestampLookup = null;
+	private Map<String, URLTimestamp> timestampLookup = null;
 	
 	public CachingResourceLoader() {
 		cache = new HashMap<String, StringBuffer>();
-		timestampLookup = new HashMap<String, URL>();
+		timestampLookup = new HashMap<String, URLTimestamp>();
 	}
 
 	public URL getResource(String path) throws IOException {
@@ -28,10 +28,14 @@ public abstract class CachingResourceLoader implements ResourceLoader {
 	}
 
 	public synchronized long getTimestamp(String path) {
-		URL url = timestampLookup.get(normalizePath(path));
-		if (url != null) {
+		return (_getTimestamp(normalizePath(path)));
+	}
+	
+	private synchronized long _getTimestamp(String path) {
+		URLTimestamp urlTimestamp = timestampLookup.get(path);
+		if (urlTimestamp != null) {
 			try {
-				return url.openConnection().getLastModified();
+				return urlTimestamp.url.openConnection().getLastModified();
 			} catch (IOException e) {
 				return -1;
 			}
@@ -46,6 +50,17 @@ public abstract class CachingResourceLoader implements ResourceLoader {
 
 	public String readResource(String path, boolean useCache)throws IOException {
 		path = normalizePath(path);
+		if (useCache) {
+			URLTimestamp urlTimestamp = timestampLookup.get(path);
+			if (urlTimestamp != null) {
+				try {
+					long lastModified = urlTimestamp.url.openConnection().getLastModified();
+					if (lastModified != urlTimestamp.lastModified) {
+						useCache = false;
+					}
+				} catch (IOException e) {}
+			}
+		}
 		if (useCache) {
 			synchronized (cache) {
 				StringBuffer sb = cache.get(path);
@@ -108,8 +123,23 @@ public abstract class CachingResourceLoader implements ResourceLoader {
 	}
 	
 	protected synchronized void trackURL(String path, URL url) {
-		timestampLookup.put(path, url);
+		long timestamp = -1;
+		try {
+			timestamp = url.openConnection().getLastModified();
+		} catch (IOException e) {}
+
+		timestampLookup.put(path, new URLTimestamp(url, timestamp));
 	}
 	
 	protected abstract URL _getResource(String path) throws IOException;
+	
+	private class URLTimestamp {
+		public URL url = null;
+		public long lastModified = -1;
+		
+		public URLTimestamp(URL url, long lastModified) {
+			this.url = url;
+			this.lastModified = lastModified;
+		}
+	}
 }
