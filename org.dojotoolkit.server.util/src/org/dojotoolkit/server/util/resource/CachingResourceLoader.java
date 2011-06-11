@@ -13,8 +13,11 @@ import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public abstract class CachingResourceLoader implements ResourceLoader {
+	private static Logger logger = Logger.getLogger("org.dojotoolkit.server.util");
 	private Map<String, StringBuffer> cache = null;
 	private Map<String, URLTimestamp> timestampLookup = null;
 	
@@ -24,7 +27,21 @@ public abstract class CachingResourceLoader implements ResourceLoader {
 	}
 
 	public URL getResource(String path) throws IOException {
-		return _getResource(normalizePath(path));
+		path = normalizePath(path);
+		URL url = _getResource(path);
+		if (url != null) {
+			synchronized (timestampLookup) {
+				long timestamp = -1;
+				try {
+					timestamp = url.openConnection().getLastModified();
+				} catch (IOException e) {
+					logger.logp(Level.INFO, getClass().getName(), "getResource", "Unable to obtain a last modified volue for path ["+path+"]");					
+				}
+	
+				timestampLookup.put(path, new URLTimestamp(url, timestamp));
+			}
+		}
+		return url;
 	}
 
 	public synchronized long getTimestamp(String path) {
@@ -37,6 +54,7 @@ public abstract class CachingResourceLoader implements ResourceLoader {
 			try {
 				return urlTimestamp.url.openConnection().getLastModified();
 			} catch (IOException e) {
+				logger.logp(Level.INFO, getClass().getName(), "_getTimestamp", "Unable to obtain a last modified volue for path ["+path+"]");					
 				return -1;
 			}
 		} else {
@@ -45,20 +63,22 @@ public abstract class CachingResourceLoader implements ResourceLoader {
 	}
 	
 	public String readResource(String path) throws IOException {
-		return readResource(path, true);
-	}
-
-	public String readResource(String path, boolean useCache)throws IOException {
 		path = normalizePath(path);
+		boolean useCache = true;
 		if (useCache) {
-			URLTimestamp urlTimestamp = timestampLookup.get(path);
-			if (urlTimestamp != null) {
-				try {
-					long lastModified = urlTimestamp.url.openConnection().getLastModified();
-					if (lastModified != urlTimestamp.lastModified) {
-						useCache = false;
+			synchronized (timestampLookup) {
+				URLTimestamp urlTimestamp = timestampLookup.get(path);
+				if (urlTimestamp != null) {
+					try {
+						long lastModified = urlTimestamp.url.openConnection().getLastModified();
+						if (lastModified != urlTimestamp.lastModified) {
+							urlTimestamp.lastModified = lastModified;
+							useCache = false;
+						}
+					} catch (IOException e) {
+						logger.logp(Level.INFO, getClass().getName(), "readResource", "Unable to obtain a last modified volue for path ["+path+"]");					
 					}
-				} catch (IOException e) {}
+				}
 			}
 		}
 		if (useCache) {
@@ -69,15 +89,15 @@ public abstract class CachingResourceLoader implements ResourceLoader {
 				}
 			}
 		}
-		URL url = _getResource(path);
+		URL url = getResource(path);
 		if (url != null) {
-			return _readResource(url, path, useCache);
+			return _readResource(url, path);
 		} else {
 			return null;
 		}
 	}
 	
-	protected String _readResource(URL url, String path, boolean useCache) throws IOException {
+	protected String _readResource(URL url, String path) throws IOException {
 		String resource = null;
 		InputStream is = null;
 
@@ -90,7 +110,7 @@ public abstract class CachingResourceLoader implements ResourceLoader {
 				sb.append(line);
 				sb.append(System.getProperty("line.separator"));
 			}
-			sb = filter(sb, path, useCache);
+			sb = filter(sb, path);
 			synchronized (cache) {
 				cache.put(path, sb);
 			}
@@ -118,17 +138,8 @@ public abstract class CachingResourceLoader implements ResourceLoader {
 		}
 	}
 	
-	protected StringBuffer filter(StringBuffer sb, String path, boolean useCache) throws IOException {
+	protected StringBuffer filter(StringBuffer sb, String path) throws IOException {
 		return sb;
-	}
-	
-	protected synchronized void trackURL(String path, URL url) {
-		long timestamp = -1;
-		try {
-			timestamp = url.openConnection().getLastModified();
-		} catch (IOException e) {}
-
-		timestampLookup.put(path, new URLTimestamp(url, timestamp));
 	}
 	
 	protected abstract URL _getResource(String path) throws IOException;

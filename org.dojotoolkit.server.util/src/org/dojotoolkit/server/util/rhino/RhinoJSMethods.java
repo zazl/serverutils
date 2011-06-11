@@ -27,11 +27,10 @@ public class RhinoJSMethods {
 	private static final String PRINT = "print"; //$NON-NLS-1$
 	private static final String RESOURCE_LOADER = "resourceLoader"; //$NON-NLS-1$
 	private static final String CLASSLOADER = "classloader"; //$NON-NLS-1$
-	private static final String USE_CACHE = "useCache"; //$NON-NLS-1$
 	private static final String DEBUG = "debug"; //$NON-NLS-1$
 	private static final String LOAD_COMMON_JS_MODULE = "loadCommonJSModule"; //$NON-NLS-1$
 	
-	public static void initScope(ScriptableObject scope, ResourceLoader resourceLoader, RhinoClassLoader rhinoClassLoader, boolean useCache, boolean debug) {
+	public static void initScope(ScriptableObject scope, ResourceLoader resourceLoader, RhinoClassLoader rhinoClassLoader, boolean debug) {
     	Method[] methods = RhinoJSMethods.class.getMethods();
     	for (int i = 0; i < methods.length; i++) {
     		if (methods[i].getName().equals(PRINT)) {
@@ -53,7 +52,6 @@ public class RhinoJSMethods {
     	}
     	scope.associateValue(RESOURCE_LOADER, resourceLoader);
 	    scope.associateValue(CLASSLOADER, rhinoClassLoader);
-	    scope.associateValue(USE_CACHE, new Boolean(useCache));
 	    scope.associateValue(DEBUG, new Boolean(debug));
 	}
 	
@@ -67,7 +65,6 @@ public class RhinoJSMethods {
 
     public static Object readText(Context cx, Scriptable thisObj, Object[] args, Function funObj) {
     	ResourceLoader resourceLoader = (ResourceLoader)((ScriptableObject)thisObj).getAssociatedValue(RESOURCE_LOADER);
-    	Boolean useCache = (Boolean)((ScriptableObject)thisObj).getAssociatedValue(USE_CACHE);
 		String path = Context.toString(args[0]);
 		logger.logp(Level.FINER, RhinoJSMethods.class.getName(), "readText", "Rading text from resource ["+path+"]");
 		try {
@@ -82,7 +79,7 @@ public class RhinoJSMethods {
 		}
     	
 		try {
-			return resourceLoader.readResource(path, useCache);
+			return resourceLoader.readResource(path);
 		}
 		catch (IOException e) {
 			logger.logp(Level.SEVERE, RhinoJSMethods.class.getName(), "readText", "IOException on call to 'readText("+path+")", e);
@@ -102,7 +99,6 @@ public class RhinoJSMethods {
 	
 	public static Object loadFromResource(Context cx, Scriptable thisObj, Object[] args, Function funObj) {
     	ResourceLoader resourceLoader = (ResourceLoader)((ScriptableObject)thisObj).getAssociatedValue(RESOURCE_LOADER);
-    	Boolean useCache = (Boolean)((ScriptableObject)thisObj).getAssociatedValue(USE_CACHE);
 		String path = Context.toString(args[0]);
 		logger.logp(Level.FINER, RhinoJSMethods.class.getName(), "loadFromResource", "Loading from resource ["+path+"]");
 		try {
@@ -115,7 +111,7 @@ public class RhinoJSMethods {
 			logger.logp(Level.SEVERE, RhinoJSMethods.class.getName(), "loadFromResource", "Failed to normalize ["+path+"]", e);
 		}
 		try {
-			return cx.evaluateString(thisObj, resourceLoader.readResource(path, useCache), path, 1, null);
+			return cx.evaluateString(thisObj, resourceLoader.readResource(path), path, 1, null);
 		}
 		catch (IOException e) {
 			logger.logp(Level.SEVERE, RhinoJSMethods.class.getName(), "loadFromResource", "IOException on call to 'load("+path+")", e);

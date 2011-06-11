@@ -31,10 +31,8 @@ public abstract class V8JavaBridge {
 	protected native String runScriptInV8WithExternalCallbacks(String source, String[] callbacks, Object external) throws V8Exception;
 	
 	protected List<Throwable> compileErrors = null;
-	protected boolean useCache = false;
 	
-	public V8JavaBridge(boolean useCache) {
-		this.useCache = useCache;
+	public V8JavaBridge() {
 		compileErrors = new ArrayList<Throwable>();
 	}
 	
@@ -92,7 +90,7 @@ public abstract class V8JavaBridge {
 	public String readText(String uri) {
 		logger.logp(Level.FINER, getClass().getName(), "readText", "readText on ["+uri+"]");
 		try {
-			return readResource(uri, useCache);
+			return readResource(uri);
 		}
 		catch (IOException e) {
 			logger.logp(Level.SEVERE, getClass().getName(), "readText", "IOException reading  source ["+uri+"]", e);
@@ -104,6 +102,6 @@ public abstract class V8JavaBridge {
 		compileErrors.add(error);
 	}
 	
-	public abstract String readResource(String path, boolean useCache) throws IOException;
+	public abstract String readResource(String path) throws IOException;
 
 }
