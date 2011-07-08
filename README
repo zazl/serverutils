@@ -1,87 +1,30 @@
-Dojo Zazl
----------
+Dojo Zazl Server Utilities
+--------------------------
 
-Enables developers to run Javascript on the server to render dynamic web pages using the Dojo Toolkit’s implementation of the Django Template Language. 
-Also provides Dynamic JavaScript optimizers for the Dojo sync loader and AMD loaders.
+The Zazl Server Utilities contains server side modules that provide support for other Zazl component such as the Optimizer and Zazl Server-Side Templating. 
 
-Quick Start using NodeJS
-------------------------
+These utilities include:
 
-Install NodeJS (>= ver 0.4.0)
+1) Resource Loader (http://www.zazl.org/?page_id=168)
+2) Rhino ClassLoader (http://www.zazl.org/?page_id=152)
+3) V8 Java Bridge (http://www.zazl.org/?page_id=150)
+4) A commonjs compliant loader that runs in Rhino and V8 via java.
 
-The NodeJS package has some prereqs that need to be installed before attempting to use :
-
-1)    paperboy (npm install paperboy)
-2)    uglify-js (npm install uglify-js)
-3)    jsdom (npm install jsdom)
-
-Once these are installed untar the zazlnodejs.taz.gz file into a directory and within that directory run :
-
-node zazlserver.js <path to files> <path to dojo> <loaderconfig file (defaults to syncloader.json)>
-
-The tar file contains samples and also a copy of Dojo 1.5 (required by both Zazl and the samples) and Dojo 1.6 (used for the AMD optimizer samples)
-
-To run the sync loader based samples use :
-
-node zazlserver.js ./samples ./dojo15
-
-To run the AMD optimizer samples use :
-
-node zazlserver.js ./amdsamples ./dojo16 requirejs.json
-
-In both cases open a browser and point it to http://localhost:8080/index.html
-
-Quick Start using Jetty Server
-------------------------------
-
-Select the archive file for your platform (32Bit Windows, 32Bit Linux or 32/64Bit Mac) and uncompressed to your preferred <zazl-install-directory>
-
-To start the server you must do the following:
-
-1. Open a command prompt and point it to the directory: <zazl-install-directory>/server
-
-2. To start Zazl with Rhino:
-(Windows) run-zazl-rhino.bat
-(Linux/Mac) ./run-zazl-rhino.sh
-
-To start Zazl with V8:
-(Windows) run-zazl-v8.bat
-(Linux/Mac) ./run-zazl-v8.sh
-
-3. Open a browser to http://localhost:8080/index.html
+See http://www.zazl.org for more details
 
 Setting up a Development Environment
 ------------------------------------
 
 1) Make a directory called "zazldev" and cd into it.
-2) Download the zazlbuild.zip, zazltargetplatform.zip and unzip into the "zazldev" directory. 
-3) Clone the Zazl git repo (git clone git://github.com/rbackhouse/zazl.git)
-
-To build without Eclipse :
-1) cd into "zazlbuild"
-2) Build Zazl via zazlbuild.sh or zazlbuild.bat. The built binaries should be in the subdirectory "zazl/package".
+2) Download the zazltargetplatform.zip and unzip into the "zazldev" directory. 
+3) Clone the Server Utils git repo (git clone https://github.com/zazl/serverutils.git)
 
 To develop and build with Eclipse:
-1) Download a copy of Eclipse 3.6 (http://www.eclipse.org/downloads/)
-2) Start Eclipse and point it to the "zazldev/zazl" directory. 
-3) Import the projects found in the "zazldev/zazl" directory via "File->Import->General->Existing Projects into Workspace".
+1) Download a copy of Eclipse 3.7 (http://www.eclipse.org/downloads/)
+2) Start Eclipse and point it to the "zazldev/serverutils" directory. 
+3) Import the projects found in the "zazldev/serverutils" directory via "File->Import->General->Existing Projects into Workspace".
 4) Initially you will have some compile errors
 5) Open the "/org.dojotoolkit.zazl.feature/zazltarget.target" file and click the "Set as Target Platform" link in the top right-hand corner. This should make the compile errors go away.
-6) To test select the "Run->Run Configurations" menu option, then run the "Zazl Jetty Server (v8)" launch under the OSGi Framework section.
-7) In the OSGi console you should see :
-
-osgi> 2011-02-24 10:41:35.192:INFO::Logging to STDERR via org.mortbay.log.StdErrLog
-Browse demos at "http://localhost:8080/index.html"
-
-8) Open a browser to http://localhost:8080/index.html
-
-Zazl Build Component
---------------------
-
-The zazl build component includes a copy of Apache Ant and ant4eclipse to enable building without using eclipse itself. Within the "zazlbuild" directory there are scripts to build the Zazl binaries :
-
-    * optimizerbuild.bat/optimizerbuild.sh - Builds the JS Optimizer example WAR file. It will be located in "zazlbuild/optimizer/package"
-    * zazlbuild.bat/zazlbuild.sh - Builds the Zazl binaries. They will be located in "zazlbuild/zazl/package"
 
 Zazl Eclipse Target Platform
 ----------------------------
@@ -90,7 +33,6 @@ The Zazl Target Platform zip file (zazltargetplatform.zip) contains the prereqs 
 
     * Dojo
     * Eclipse Equinox
-    * Apache HTTP Client/Core
     * JSON (https://github.com/douglascrockford/JSON-js)
     * JSP
     * RequireJS (v0.24.0)
