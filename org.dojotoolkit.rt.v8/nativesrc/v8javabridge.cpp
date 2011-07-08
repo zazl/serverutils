@@ -212,9 +212,11 @@ v8::Handle<v8::Value> LoadCommonJSModule(const v8::Arguments& args) {
 		v8::Handle<v8::ObjectTemplate> global = CreateGlobal();
 		v8::Handle<v8::Context> moduleContext = v8::Context::New(NULL, global);
 		v8::Handle<v8::Value> requireValue = context->Global()->Get(v8::String::New("require"));
+		v8::Handle<v8::Value> defineValue = context->Global()->Get(v8::String::New("define"));
 		v8::Context::Scope context_scope(moduleContext);
 		//moduleContext->Enter();
 		moduleContext->Global()->Set(v8::String::New("require"), requireValue);
+		moduleContext->Global()->Set(v8::String::New("define"), defineValue);
 		moduleContext->Global()->Set(v8::String::New("jniEnv"), v8::External::New(env));
 		moduleContext->Global()->Set(v8::String::New("jobject"), v8::External::New(jobj));
 
