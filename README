@@ -1,7 +1,7 @@
 Dojo Zazl Server Utilities
 --------------------------
 
-The Zazl Server Utilities contains server side modules that provide support for other Zazl component such as the Optimizer and Zazl Server-Side Templating. 
+The Zazl Server Utilities contains server side modules that provide support for other Zazl components such as the Optimizer and Zazl Server-Side Templating. 
 
 These utilities include:
 
