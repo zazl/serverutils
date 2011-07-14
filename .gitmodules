@@ -1,0 +1,3 @@
+[submodule "org.dojotoolkit.server.util.js.tests/commonjs"]
+	path = org.dojotoolkit.server.util.js.tests/commonjs
+	url = https://github.com/commonjs/commonjs.git
