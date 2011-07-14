@@ -9,6 +9,6 @@ import org.osgi.framework.BundleContext;
 
 public class ExactExportsTest extends CommonJSTest {
 	public ExactExportsTest(BundleContext bundleContext) {
-		super(bundleContext, "/jstests/unittests/exactExports/");
+		super(bundleContext, "/commonjs/tests/modules/1.0/exactExports/");
 	}
 }

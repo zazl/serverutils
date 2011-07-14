@@ -9,6 +9,6 @@ import org.osgi.framework.BundleContext;
 
 public class RelativeTest extends CommonJSTest {
 	public RelativeTest(BundleContext bundleContext) {
-		super(bundleContext, "/jstests/unittests/relative/");
+		super(bundleContext, "/commonjs/tests/modules/1.0/relative/");
 	}
 }

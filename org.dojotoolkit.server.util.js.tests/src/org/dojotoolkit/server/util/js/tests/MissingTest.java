@@ -9,6 +9,6 @@ import org.osgi.framework.BundleContext;
 
 public class MissingTest extends CommonJSTest {
 	public MissingTest(BundleContext bundleContext) {
-		super(bundleContext, "/jstests/unittests/missing/");
+		super(bundleContext, "/commonjs/tests/modules/1.0/missing/");
 	}
 }

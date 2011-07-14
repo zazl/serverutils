@@ -9,6 +9,6 @@ import org.osgi.framework.BundleContext;
 
 public class DeterminismTest extends CommonJSTest {
 	public DeterminismTest(BundleContext bundleContext) {
-		super(bundleContext, "/jstests/unittests/determinism/");
+		super(bundleContext, "/commonjs/tests/modules/1.0/determinism/");
 	}
 }

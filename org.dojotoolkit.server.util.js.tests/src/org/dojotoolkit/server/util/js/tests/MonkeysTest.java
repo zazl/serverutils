@@ -9,6 +9,6 @@ import org.osgi.framework.BundleContext;
 
 public class MonkeysTest extends CommonJSTest {
 	public MonkeysTest(BundleContext bundleContext) {
-		super(bundleContext, "/jstests/unittests/monkeys/");
+		super(bundleContext, "/commonjs/tests/modules/1.0/monkeys/");
 	}
 }

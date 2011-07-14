@@ -9,6 +9,6 @@ import org.osgi.framework.BundleContext;
 
 public class AbsoluteTest extends CommonJSTest {
 	public AbsoluteTest(BundleContext bundleContext) {
-		super(bundleContext, "/jstests/unittests/absolute/");
+		super(bundleContext, "/commonjs/tests/modules/1.0/absolute/");
 	}
 }

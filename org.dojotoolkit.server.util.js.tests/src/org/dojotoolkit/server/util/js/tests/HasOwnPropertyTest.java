@@ -9,6 +9,6 @@ import org.osgi.framework.BundleContext;
 
 public class HasOwnPropertyTest extends CommonJSTest {
 	public HasOwnPropertyTest(BundleContext bundleContext) {
-		super(bundleContext, "/jstests/unittests/hasOwnProperty/");
+		super(bundleContext, "/commonjs/tests/modules/1.0/hasOwnProperty/");
 	}
 }

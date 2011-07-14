@@ -9,6 +9,6 @@ import org.osgi.framework.BundleContext;
 
 public class CyclicTest extends CommonJSTest {
 	public CyclicTest(BundleContext bundleContext) {
-		super(bundleContext, "/jstests/unittests/cyclic/");
+		super(bundleContext, "/commonjs/tests/modules/1.0/cyclic/");
 	}
 }

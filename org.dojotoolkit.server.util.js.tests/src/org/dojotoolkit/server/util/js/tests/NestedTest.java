@@ -9,6 +9,6 @@ import org.osgi.framework.BundleContext;
 
 public class NestedTest extends CommonJSTest {
 	public NestedTest(BundleContext bundleContext) {
-		super(bundleContext, "/jstests/unittests/nested/");
+		super(bundleContext, "/commonjs/tests/modules/1.0/nested/");
 	}
 }

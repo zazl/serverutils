@@ -9,6 +9,6 @@ import org.osgi.framework.BundleContext;
 
 public class MethodTest extends CommonJSTest {
 	public MethodTest(BundleContext bundleContext) {
-		super(bundleContext, "/jstests/unittests/method/");
+		super(bundleContext, "/commonjs/tests/modules/1.0/method/");
 	}
 }
