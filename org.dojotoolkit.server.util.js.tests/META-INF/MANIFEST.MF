@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tests
+Bundle-SymbolicName: org.dojotoolkit.server.util.js.tests
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: junit.framework;version="3.8.2",
+ junit.textui;version="3.8.2",
+ org.dojotoolkit.rt.v8,
+ org.dojotoolkit.server.util.resource,
+ org.dojotoolkit.server.util.rhino,
+ org.mozilla.javascript,
+ org.osgi.framework;version="1.3.0"
+Bundle-Activator: org.dojotoolkit.server.util.js.tests.Activator
