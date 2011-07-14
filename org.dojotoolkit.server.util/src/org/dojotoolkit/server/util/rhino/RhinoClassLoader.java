@@ -32,19 +32,20 @@ public class RhinoClassLoader extends ClassLoader {
 	
     public synchronized Class<?> loadClass(String name) throws ClassNotFoundException {
 		logger.logp(Level.FINER, getClass().getName(), "loadClass", "loading class for ["+name+"]");
-    	Class<?> c = findLoadedClass(name.replace('-', '_'));
+		String _name = name.replace('-', '_');
+    	Class<?> c = findLoadedClass(_name);
     	if (c != null) {
-    		logger.logp(Level.FINER, getClass().getName(), "loadClass", "class already loaded for ["+name+"]");
+    		logger.logp(Level.FINER, getClass().getName(), "loadClass", "class already loaded for ["+_name+"]");
     		return c;
     	}
     	
     	try {
-			c = getParent().loadClass(name.replace('-', '_'));
+			c = getParent().loadClass(_name);
 		} catch (ClassNotFoundException e) {
 		}
     	
     	if (c == null) {
-    		String fileName = name.replace('.', '/');
+    		String fileName = name.replace('.', '/').replace('~', '.');
     		fileName += ".js";
 			if (fileName.charAt(0) != '/') {
 				fileName = '/'+fileName;
@@ -54,14 +55,15 @@ public class RhinoClassLoader extends ClassLoader {
 
 			try {
 				String resource = resourceLoader.readResource(fileName);
+				String className = name.replace('-', '_').replace('~', '_'); 
+				String _fileName = fileName.replace('-', '_').replace('~', '_');
 	    		if (resource != null) {
 					ClassCompiler classCompiler = new ClassCompiler(new CompilerEnvirons());
-				
-					Object[] classBytes = classCompiler.compileToClassFiles(resource, fileName.replace('-', '_'), 1, name.replace('-', '_'));
-					c = defineClass(name.replace('-', '_'), (byte[])classBytes[1], 0, ((byte[])classBytes[1]).length);
+					Object[] classBytes = classCompiler.compileToClassFiles(resource, _fileName, 1, className);
+					c = defineClass(className, (byte[])classBytes[1], 0, ((byte[])classBytes[1]).length);
 					resolveClass(c);
 	    		} else {
-	    			throw new ClassNotFoundException(name);
+	    			throw new ClassNotFoundException(className);
 	    		}
 			} catch (IOException e) {
 				logger.logp(Level.SEVERE, getClass().getName(), "loadJS", "IOException while loading class for ["+name+"]", e);

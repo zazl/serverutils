@@ -154,9 +154,9 @@ public class RhinoJSMethods {
 				resource = resource.substring(1);
 			}
 			if (resource.indexOf('.') != -1) {
-				resource = resource.substring(0, resource.indexOf('.'));
+				resource = resource.substring(0, resource.lastIndexOf('.'));
 			}
-			resource = resource.replace('/', '.');
+			resource = resource.replace('.', '~').replace('/', '.');
 			logger.logp(Level.FINER, RhinoJSMethods.class.getName(), "loadCommonJSModule", "Normalized path = ["+resource+"]");
 			Scriptable moduleContext = Context.toObject(args[1], thisObj);
 			return classloader.loadJS(resource, cx, moduleContext);
