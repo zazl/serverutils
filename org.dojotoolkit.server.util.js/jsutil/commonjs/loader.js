@@ -53,7 +53,7 @@ var config = config || {};
 		}		
 		path = normalize(path);
 		
-		if (aliases[path]) {
+		if (aliases[path] && path !== "hasOwnProperty" &&  path !== "toString") {
 			path = aliases[path];
 		}
 		
