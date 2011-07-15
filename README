@@ -15,21 +15,24 @@ See http://www.zazl.org for more details
 Setting up a Development Environment
 ------------------------------------
 
+NOTE: This step is also required for setting up a development environment for the optimizer and zazl components too.
+
 1) Make a directory called "zazldev" and cd into it.
-2) Download the zazltargetplatform.zip and unzip into the "zazldev" directory. 
-3) Clone the Server Utils git repo (git clone https://github.com/zazl/serverutils.git)
+2) In the "zazldev" directory create a new directory called "workspace"
+2) Download the Zazl Eclipse Target Platform from http://www.zazl.org/downloads/0.1/zazltargetplatform.zip and unzip into the "zazldev/workspace" directory. 
+3) Clone the Server Utils git repo (git clone https://github.com/zazl/serverutils.git) from within the "zazldev/workspace" directory.
 
 To develop and build with Eclipse:
 1) Download a copy of Eclipse 3.7 (http://www.eclipse.org/downloads/)
-2) Start Eclipse and point it to the "zazldev/serverutils" directory. 
-3) Import the projects found in the "zazldev/serverutils" directory via "File->Import->General->Existing Projects into Workspace".
+2) Start Eclipse and point it to the "zazldev/workspace" directory. 
+3) Import the projects found in the "zazldev/workspace/serverutils" directory via "File->Import->General->Existing Projects into Workspace".
 4) Initially you will have some compile errors
-5) Open the "/org.dojotoolkit.zazl.feature/zazltarget.target" file and click the "Set as Target Platform" link in the top right-hand corner. This should make the compile errors go away.
+5) Open the "/org.dojotoolkit.server.util.feature/zazltarget.target" file and click the "Set as Target Platform" link in the top right-hand corner. This should make the compile errors go away.
 
 Zazl Eclipse Target Platform
 ----------------------------
 
-The Zazl Target Platform zip file (zazltargetplatform.zip) contains the prereqs that Zazl requires. They are currently :
+The Zazl Target Platform zip file (http://www.zazl.org/downloads/0.1/zazltargetplatform.zip) contains the prereqs that Zazl requires to run and build. They are currently :
 
     * Dojo
     * Eclipse Equinox
