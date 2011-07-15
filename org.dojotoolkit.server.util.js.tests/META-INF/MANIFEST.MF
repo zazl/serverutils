@@ -7,6 +7,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: junit.framework;version="3.8.2",
  junit.textui;version="3.8.2",
  org.dojotoolkit.rt.v8,
+ org.dojotoolkit.server.util.osgi,
  org.dojotoolkit.server.util.resource,
  org.dojotoolkit.server.util.rhino,
  org.mozilla.javascript,

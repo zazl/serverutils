@@ -5,6 +5,7 @@
 */
 package org.dojotoolkit.server.util.js.tests;
 
+import org.dojotoolkit.server.util.osgi.OSGiResourceLoader;
 import org.dojotoolkit.server.util.resource.ResourceLoader;
 import org.osgi.framework.BundleContext;
 
