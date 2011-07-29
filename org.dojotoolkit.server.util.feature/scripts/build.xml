@@ -1,0 +1,33 @@
+<project name="build" basedir=".." default="build">
+    <!-- Properties -->
+	<property
+		name="features"
+		value="org.dojotoolkit.rt.v8.feature,
+		       org.dojotoolkit.server.util.feature"/>
+
+	<property
+		name="target.dir"
+		value="${basedir}/bin/build.artifacts"/>
+	
+	<property
+		name="destination"
+		value="${target.dir}"/>
+	
+	<!-- Export the feature -->
+	<target name="build">
+		<antcall target="clean"/>
+		<echo level="warning" message="Wait for background PDE Export to finish..."/>
+		<pde.exportFeatures
+			features="${features}"
+			destination="${destination}"
+			exportType="directory" 
+			useJARFormat="false"
+			exportSource="false"/>
+	</target>
+
+	<!-- Clean up the target directory -->
+	<target name="clean">
+		<delete	dir="${target.dir}"/>
+		<mkdir dir="${target.dir}"/>
+	</target>
+</project>
