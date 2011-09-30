@@ -61,7 +61,7 @@ var config = config || {};
 	};
 	
 	var require = global.require = function(id) {
-		if (id.match(".+!.+")) {
+		if (id.match(".+!")) {
 			var pluginName = id.substring(0, id.indexOf('!'));
 			pluginName = expand(pluginName);
 			var pluginModuleName = id.substring(id.indexOf('!')+1);
