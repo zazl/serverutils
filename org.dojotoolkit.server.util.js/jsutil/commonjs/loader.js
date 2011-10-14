@@ -10,12 +10,30 @@ var config = config || {};
 (function(global, root, config) {
 	var modules = global.modules = global.modules || {};
 	var stack = [];
-	var aliases = config.paths || {};
+	var paths = {};
+	var pkgs = {};
+	if (config.paths) {
+		for (var p in config.paths) {
+			var path = config.paths[p];
+			paths[p] = path;
+		}
+	}
+	if (config.packages) {
+		for (i = 0; i < config.packages.length; i++) {
+			var pkg = config.packages[i];
+			pkgs[pkg.name] = pkg;
+		}
+	}
+	
 	var opts = Object.prototype.toString;
 	
     function isFunction(it) { return opts.call(it) === "[object Function]"; };
     function isArray(it) { return opts.call(it) === "[object Array]"; };
     function isString(it) { return (typeof it == "string" || it instanceof String); };
+    
+    function _getParentId() {
+    	return stack.length > 0 ? stack[stack.length-1] : "";
+    };
     
 	function normalize(path) {
 		var segments = path.split('/');
@@ -36,27 +54,20 @@ var config = config || {};
 		return segments.join('/');
 	};
 	
-	function expand(id) {
-		var parent = stack.length > 0 ? stack[stack.length-1].module : {id: "top", path: root};
-		var path;
-		
-		var isRelative = id.search(/^\.\/|^\.\.\//) === -1 ? false : true;
+	function expand(path) {
+		var isRelative = path.search(/^\./) === -1 ? false : true;
 		if (isRelative) {
-			var parentPath = parent.path.substring(0, parent.path.lastIndexOf('/')+1);
-			path = parentPath + id;
-		} else {
-			if (id.charAt(0) === '/') {
-				path = id.substring(1);
-			} else {
-				path = id;
-			}
-		}		
-		path = normalize(path);
-		
-		if (aliases[path] && path !== "hasOwnProperty" &&  path !== "toString") {
-			path = aliases[path];
+            var pkg;
+            if ((pkg = pkgs[_getParentId()])) {
+                path = pkg.name + "/" + path;
+            } else {
+                path = _getParentId() + "/../" + path;
+            }
+			path = normalize(path);
 		}
-		
+		if (paths[path] && path !== "hasOwnProperty" &&  path !== "toString") {
+			path = paths[path];
+		}
 		return path;
 	};
 	
@@ -103,7 +114,7 @@ var config = config || {};
 	    	var exports = {};
 	    	var currentModule = {id:id, path: path};
 	    	modules[path] = {module: currentModule, exports: exports};
-	    	stack.push(modules[path]);
+	    	stack.push(path);
 	    	if (loadCommonJSModule(root+path+".js", modules[path]) === null) {
 	    		throw new Error("Unable to load ["+path+"]");
 	    	}
@@ -127,7 +138,7 @@ var config = config || {};
 			factory = dependencies;
 			dependencies = [];
 		}
-		var module = stack[stack.length-1];
+		var module = modules[stack[stack.length-1]];
 		if (isFunction(factory)) { 
 			module.factory = factory;
 			var dependencyArgs = [];
