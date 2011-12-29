@@ -108,7 +108,7 @@ public abstract class CachingResourceLoader implements ResourceLoader {
 			String line = "";
 			while((line = r.readLine()) != null){
 				sb.append(line);
-				sb.append(System.getProperty("line.separator"));
+				sb.append('\n');
 			}
 			sb = filter(sb, path);
 			synchronized (cache) {
