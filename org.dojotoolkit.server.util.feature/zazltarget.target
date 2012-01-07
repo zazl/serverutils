@@ -9,7 +9,6 @@
 <location path="${workspace_loc}/../targetplatform/json" type="Directory"/>
 <location path="${workspace_loc}/../targetplatform/jsp" type="Directory"/>
 <location path="${workspace_loc}/../targetplatform/junit" type="Directory"/>
-<location path="${workspace_loc}/../targetplatform/requirejs" type="Directory"/>
 <location path="${workspace_loc}/../targetplatform/rhino" type="Directory"/>
 <location path="${workspace_loc}/../targetplatform/shrinksafe" type="Directory"/>
 <location path="${workspace_loc}/../targetplatform/uglifyjs" type="Directory"/>
