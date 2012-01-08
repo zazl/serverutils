@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
+import java.util.Hashtable;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,7 +46,7 @@ public class DojoServicesInitializer {
 					String serviceImplName = null;
 					String id = null;
 					String serviceName = null;
-					Properties properties = new Properties();
+					Hashtable<String, String> properties = new Hashtable<String, String>();
 					while (paramTokenizer.hasMoreTokens()) {
 						String param = paramTokenizer.nextToken();
 						if (param.indexOf('=') != -1) {
