@@ -34,12 +34,12 @@ Zazl Eclipse Target Platform
 
 The Zazl Target Platform zip file (http://www.zazl.org/downloads/0.1/zazltargetplatform.zip) contains the prereqs that Zazl requires to run and build. They are currently :
 
-    * Dojo
-    * Eclipse Equinox
+    * Dojo 1.5 + 1.7.1
+    * Eclipse Equinox 3.7
     * JSON (https://github.com/douglascrockford/JSON-js)
     * JSP
-    * RequireJS (v0.24.0)
     * Mozilla Rhino
     * Dojo Shrinksafe
-    * Uglify-JS (v1.0)
+    * Uglify-JS (v1.2.3) (https://github.com/mishoo/UglifyJS)
+    * NekoHTML (1.9.15)
 
