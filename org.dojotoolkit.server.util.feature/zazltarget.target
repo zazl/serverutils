@@ -13,5 +13,6 @@
 <location path="${workspace_loc}/../targetplatform/shrinksafe" type="Directory"/>
 <location path="${workspace_loc}/../targetplatform/uglifyjs" type="Directory"/>
 <location path="${workspace_loc}/../targetplatform/nekohtml" type="Directory"/>
+<location path="${workspace_loc}/../targetplatform/esprima" type="Directory"/>
 </locations>
 </target>
