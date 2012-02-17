@@ -3,4 +3,5 @@
     Available via Academic Free License >= 2.1 OR the modified BSD license.
     see: http://dojotoolkit.org/license for details
 */
-exports.resourceloader = require("./resourceloader"); 
+exports.resourceloader = require("./resourceloader");
+exports.astcache = require("./astcache");

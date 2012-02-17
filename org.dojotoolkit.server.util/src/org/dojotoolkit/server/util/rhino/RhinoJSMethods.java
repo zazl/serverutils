@@ -29,8 +29,14 @@ public class RhinoJSMethods {
 	private static final String CLASSLOADER = "classloader"; //$NON-NLS-1$
 	private static final String DEBUG = "debug"; //$NON-NLS-1$
 	private static final String LOAD_COMMON_JS_MODULE = "loadCommonJSModule"; //$NON-NLS-1$
+	private static final String GET_AST = "getAst"; //$NON-NLS-1$
+	private static final String AST_CACHE_HANDLER = "astCacheHandler"; //$NON-NLS-1$
 	
 	public static void initScope(ScriptableObject scope, ResourceLoader resourceLoader, RhinoClassLoader rhinoClassLoader, boolean debug) {
+		initScope(scope, resourceLoader, rhinoClassLoader, debug, null);
+	}
+
+	public static void initScope(ScriptableObject scope, ResourceLoader resourceLoader, RhinoClassLoader rhinoClassLoader, boolean debug, ASTCache astCacheHandler) {
     	Method[] methods = RhinoJSMethods.class.getMethods();
     	for (int i = 0; i < methods.length; i++) {
     		if (methods[i].getName().equals(PRINT)) {
@@ -49,10 +55,19 @@ public class RhinoJSMethods {
     			FunctionObject f = new FunctionObject(LOAD_COMMON_JS_MODULE, methods[i], scope);
     			scope.defineProperty(LOAD_COMMON_JS_MODULE, f, ScriptableObject.DONTENUM);
     		}
+    		else if (methods[i].getName().equals(GET_AST)) {
+    			if (astCacheHandler != null) {
+	    			FunctionObject f = new FunctionObject(GET_AST, methods[i], scope);
+	    			scope.defineProperty(GET_AST, f, ScriptableObject.DONTENUM);
+    			}
+    		}
     	}
     	scope.associateValue(RESOURCE_LOADER, resourceLoader);
 	    scope.associateValue(CLASSLOADER, rhinoClassLoader);
 	    scope.associateValue(DEBUG, new Boolean(debug));
+		if (astCacheHandler != null) {
+		    scope.associateValue(AST_CACHE_HANDLER, astCacheHandler);
+		}
 	}
 	
     public static Object print(Context cx, Scriptable thisObj, Object[] args, Function funObj){
@@ -164,5 +179,13 @@ public class RhinoJSMethods {
 			logger.logp(Level.SEVERE, RhinoJSMethods.class.getName(), "loadCommonJSModule", "Failed to normalize ["+resource+"]", e);
 		}
 		return null;
+	}
+
+	public static Object getAst(Context cx, Scriptable thisObj, Object[] args, Function funObj) {
+		ASTCache astCacheHandler = (ASTCache)((ScriptableObject)thisObj).getAssociatedValue("astCacheHandler");
+    	ResourceLoader resourceLoader = (ResourceLoader)((ScriptableObject)thisObj).getAssociatedValue(RESOURCE_LOADER);
+		String uri = Context.toString(args[0]);
+		Function callback = (Function)Context.toObject(args[1], thisObj);
+		return astCacheHandler.getAst(uri, callback, resourceLoader, cx, thisObj);
 	}
 }
