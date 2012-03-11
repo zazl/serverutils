@@ -6,9 +6,9 @@ The Zazl Server Utilities contains server side modules that provide support for 
 
 These utilities include:
 
-1) :Resource Loader: http://www.zazl.org/?page_id=168
-2) :Rhino ClassLoader: http://www.zazl.org/?page_id=152
-3) :V8 Java Bridge: http://www.zazl.org/?page_id=150
+1) Resource Loader (http://www.zazl.org/?page_id=168)
+2) Rhino ClassLoader (http://www.zazl.org/?page_id=152)
+3) V8 Java Bridge (http://www.zazl.org/?page_id=150)
 4) A commonjs compliant loader that runs in Rhino and V8 via java.
 
 See http://www.zazl.org for more details
