@@ -1,19 +1,20 @@
+==========================
 Dojo Zazl Server Utilities
---------------------------
+==========================
 
 The Zazl Server Utilities contains server side modules that provide support for other Zazl components such as the Optimizer and Zazl Server-Side Templating. 
 
 These utilities include:
 
-1) Resource Loader (http://www.zazl.org/?page_id=168)
-2) Rhino ClassLoader (http://www.zazl.org/?page_id=152)
-3) V8 Java Bridge (http://www.zazl.org/?page_id=150)
+1) :Resource Loader: http://www.zazl.org/?page_id=168
+2) :Rhino ClassLoader: http://www.zazl.org/?page_id=152
+3) :V8 Java Bridge: http://www.zazl.org/?page_id=150
 4) A commonjs compliant loader that runs in Rhino and V8 via java.
 
 See http://www.zazl.org for more details
 
 Setting up a Development Environment
-------------------------------------
+====================================
 
 NOTE: This step is also required for setting up a development environment for the optimizer and zazl components too.
 
@@ -30,11 +31,11 @@ To develop and build with Eclipse:
 5) Open the "/org.dojotoolkit.server.util.feature/zazltarget.target" file and click the "Set as Target Platform" link in the top right-hand corner. This should make the compile errors go away.
 
 Zazl Eclipse Target Platform
-----------------------------
+============================
 
-The Zazl Target Platform zip file (http://www.zazl.org/downloads/0.1/zazltargetplatform.zip) contains the prereqs that Zazl requires to run and build. They are currently :
+The Zazl Target Platform zip file (http://www.zazl.org/downloads/0.2/zazltargetplatform.zip) contains the prereqs that Zazl requires to run and build. They are currently :
 
-    * Dojo 1.5 + 1.7.1
+    * Dojo 1.5.x + 1.7.x
     * Eclipse Equinox 3.7
     * JSON (https://github.com/douglascrockford/JSON-js)
     * JSP
