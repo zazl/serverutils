@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.dojotoolkit.prereq.dojo17"
-      label="Dojo 1.7.0"
-      version="1.7.0">
+      label="Dojo 1.7.2"
+      version="1.7.2">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]
@@ -20,6 +20,6 @@
          id="org.dojotoolkit.dojo"
          download-size="0"
          install-size="0"
-         version="1.7.1"/>
+         version="1.7.2"/>
 
 </feature>
