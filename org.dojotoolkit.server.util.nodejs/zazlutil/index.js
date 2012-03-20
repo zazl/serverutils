@@ -6,3 +6,4 @@
 exports.resourceloader = require("./lib/resourceloader/resourceloader.js");
 exports.sandbox = require("./lib/sandbox/sandbox.js");
 exports.utils = require("./lib/utils.js");
+exports.astcache = require("./lib/astcache.js");
