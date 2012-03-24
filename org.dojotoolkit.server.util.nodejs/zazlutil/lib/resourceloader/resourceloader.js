@@ -5,15 +5,8 @@
 */
 var fs = require('fs');
 var path = require('path');
-var jsp = require("uglify-js").parser;
-var pro = require("uglify-js").uglify;
 
 var providerPaths = [];
-var ignoreList = [
-	/dojo\/_base\/html.js/,
-	/dojo\/dojo.js/,
-	/.*\/nls\/.*/
-];
 var cache = {};
 
 exports.addProvider = function(providerPath) {
@@ -23,59 +16,69 @@ exports.addProvider = function(providerPath) {
 
 exports.addProvider(path.dirname(module.filename));
 
-exports.readText = function(filePath, compress) {
+exports.readText = function(filePath) {
     filePath = String(filePath);
     if (filePath.charAt(0) === '/') {
         filePath = filePath.substring(1);
     }
-	if (cache[filePath] !== undefined) {
-		return cache[filePath];
+    var cacheEntry = cache[filePath];
+	if (cacheEntry !== undefined) {
+		var ts = getTimestamp(filePath, cacheEntry.root);
+		if (ts === cacheEntry.ts) {
+			return cacheEntry.contents;
+		}
 	}
-	if (compress === undefined) {
-		compress = true;
-	}
+
     var contents = null;
-    for (var i = 0; i < providerPaths.length; i++) {
-    	contents = readTextFile(filePath, providerPaths[i]);
+    var root = findPath(filePath);
+    if (root !== null) {
+    	contents = readTextFile(filePath, root);
         if (contents !== null) {
-        	if (doCompress(filePath, compress)) {
-        		var ast = jsp.parse(contents);
-        		ast = pro.ast_mangle(ast);
-        		ast = pro.ast_squeeze(ast, {make_seqs: false});
-        		contents = pro.gen_code(ast);
-                if (contents.charAt(contents.length-1) === ')') {
-                	contents += ";";
-                }
-        	}
-        	cache[filePath] = contents;
-        	break;
+        	var ts = getTimestamp(filePath, root);
+        	cache[filePath] = {contents: contents, ts: ts, root: root};
         }
     }
     //console.log("readText : ["+filePath+"] "+ ((contents === null) ? "false" : "true"));
     return contents;
 };
 
-doCompress = function(filePath, compressFlag) {
-	var compress = false;
-	var path = String(filePath);
-	if (compressFlag && path.match(".js$")) {
-		var ignore = false;
-		for (var i = 0; i < ignoreList.length; i++) {
-			if (path.match(ignoreList[i])) {
-				ignore = true;
-				break;
-			}
-		}
-		compress = !ignore;
-	}
-	return compress;
-}
+exports.getTimestamp = function(filePath) {
+	var ts = -1;
 
-readTextFile = function(filePath, root) {
-    filePath = path.join(root, String(filePath));
-    try {
+    var root = findPath(filePath);
+    if (root !== null) {
+    	ts = getTimestamp(filePath, root);
+    }
+    return ts;
+};
+
+function readTextFile(filePath, root) {
+	filePath = path.join(root, String(filePath));
+    if (path.existsSync(filePath)) {
     	return fs.readFileSync(filePath, 'utf8');
-    } catch(e) {
+    } else {
         return null;
     }
 };
+
+function getTimestamp(filePath, root) {
+	filePath = path.join(root, String(filePath));
+    if (path.existsSync(filePath)) {
+    	var stats = fs.statSync(filePath);
+    	return stats.mtime.getTime();
+    } else {
+        return -1;
+    }
+};
+
+function findPath(filePath) {
+	var p;
+    for (var i = 0; i < providerPaths.length; i++) {
+    	p = path.join(providerPaths[i], String(filePath));
+    	if (path.existsSync(p)) {
+    		return providerPaths[i];
+    	}
+    }
+    return null;
+};
+
