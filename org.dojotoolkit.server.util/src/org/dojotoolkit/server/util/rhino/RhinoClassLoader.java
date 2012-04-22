@@ -65,8 +65,8 @@ public class RhinoClassLoader extends ClassLoader {
 	    		} else {
 	    			throw new ClassNotFoundException(className);
 	    		}
-			} catch (IOException e) {
-				logger.logp(Level.SEVERE, getClass().getName(), "loadJS", "IOException while loading class for ["+name+"]", e);
+			} catch (Throwable e) {
+				logger.logp(Level.SEVERE, getClass().getName(), "loadJS", "Exception while loading class for ["+name+"]", e);
     			throw new ClassNotFoundException(name);
 			} finally {
 	            if (is != null) {
