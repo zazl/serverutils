@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tests
 Bundle-SymbolicName: org.dojotoolkit.server.util.js.tests
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 0.3.1
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: junit.framework;version="3.8.2",
  junit.textui;version="3.8.2",
