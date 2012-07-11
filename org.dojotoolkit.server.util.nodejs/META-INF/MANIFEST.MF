@@ -2,4 +2,4 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Nodejs Server Util
 Bundle-SymbolicName: org.dojotoolkit.server.util.nodejs
-Bundle-Version: 0.3.1
+Bundle-Version: 0.3.2
