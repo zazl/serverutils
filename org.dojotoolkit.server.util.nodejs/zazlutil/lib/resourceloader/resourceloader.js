@@ -54,7 +54,7 @@ exports.getTimestamp = function(filePath) {
 
 function readTextFile(filePath, root) {
 	filePath = path.join(root, String(filePath));
-    if (path.existsSync(filePath)) {
+    if (fs.existsSync(filePath)) {
     	return fs.readFileSync(filePath, 'utf8');
     } else {
         return null;
@@ -63,7 +63,7 @@ function readTextFile(filePath, root) {
 
 function getTimestamp(filePath, root) {
 	filePath = path.join(root, String(filePath));
-    if (path.existsSync(filePath)) {
+    if (fs.existsSync(filePath)) {
     	var stats = fs.statSync(filePath);
     	return stats.mtime.getTime();
     } else {
@@ -75,7 +75,7 @@ function findPath(filePath) {
 	var p;
     for (var i = 0; i < providerPaths.length; i++) {
     	p = path.join(providerPaths[i], String(filePath));
-    	if (path.existsSync(p)) {
+    	if (fs.existsSync(p)) {
     		return providerPaths[i];
     	}
     }
