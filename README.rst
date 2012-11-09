@@ -33,15 +33,4 @@ To develop and build with Eclipse:
 Zazl Eclipse Target Platform
 ============================
 
-The Zazl Target Platform zip file (http://www.zazl.org/downloads/0.3.0/zazltargetplatform.zip) contains the prereqs that Zazl requires to run and build. They are currently :
-
-    * Dojo 1.5.x + 1.7.x
-    * Eclipse Equinox 3.7
-    * JSON (https://github.com/douglascrockford/JSON-js)
-    * JSP
-    * Mozilla Rhino (1.7.3)
-    * Dojo Shrinksafe
-    * Uglify-JS (v1.2.3) (https://github.com/mishoo/UglifyJS)
-    * NekoHTML (1.9.15)
-    * Google Closure (r1810)
-
+The Zazl Target Platform zip file (http://www.zazl.org/downloads/0.4.6/zazltargetplatform.zip) contains the prereqs that Zazl requires to run and build.
