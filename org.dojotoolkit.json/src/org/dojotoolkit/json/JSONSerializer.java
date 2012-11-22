@@ -153,7 +153,6 @@ public class JSONSerializer {
             char c = chars[i];
             switch (c) {
                 case  '"': writer.write("\\\""); break;
-                case '\'': writer.write("\\'");  break;
                 case '\\': writer.write("\\\\"); break;
                 case    0: writer.write("\\0"); break;
                 case '\b': writer.write("\\b"); break;
