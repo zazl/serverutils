@@ -2,5 +2,5 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Json Plug-in
 Bundle-SymbolicName: org.dojotoolkit.json
-Bundle-Version: 0.3.1
+Bundle-Version: 0.3.6
 Export-Package: org.dojotoolkit.json
