@@ -166,7 +166,7 @@ public class JSONSerializer {
                         writer.write(c);
                     }
                     else if (c < 255) {
-                        writer.write("\\x");
+                        writer.write("\\u00");
                         writer.write(rightAlignedZero(Integer.toHexString(c),2));
                     }
                     else {
