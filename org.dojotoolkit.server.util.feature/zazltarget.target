@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.6"?>
+<?pde version="3.8"?>
 
-<target name="zazltarget">
+<target name="zazltarget" sequenceNumber="2">
 <locations>
-<location path="${workspace_loc}/../targetplatform/equinox-SDK-3.7" type="Directory"/>
 <location path="${workspace_loc}/../targetplatform/dojo" type="Directory"/>
 <location path="${workspace_loc}/../targetplatform/http-client" type="Directory"/>
-<location path="${workspace_loc}/../targetplatform/json" type="Directory"/>
-<location path="${workspace_loc}/../targetplatform/jsp" type="Directory"/>
-<location path="${workspace_loc}/../targetplatform/junit" type="Directory"/>
-<location path="${workspace_loc}/../targetplatform/rhino" type="Directory"/>
 <location path="${workspace_loc}/../targetplatform/shrinksafe" type="Directory"/>
+<location path="${workspace_loc}/../targetplatform/junit" type="Directory"/>
 <location path="${workspace_loc}/../targetplatform/uglifyjs" type="Directory"/>
-<location path="${workspace_loc}/../targetplatform/nekohtml" type="Directory"/>
+<location path="${workspace_loc}/../targetplatform/rhino" type="Directory"/>
+<location path="${workspace_loc}/../targetplatform/equinox-SDK-3.8.2" type="Directory"/>
 <location path="${workspace_loc}/../targetplatform/esprima" type="Directory"/>
 <location path="${workspace_loc}/../targetplatform/closure" type="Directory"/>
+<location path="${workspace_loc}/../targetplatform/nekohtml" type="Directory"/>
+<location path="${workspace_loc}/../targetplatform/json" type="Directory"/>
 </locations>
 </target>

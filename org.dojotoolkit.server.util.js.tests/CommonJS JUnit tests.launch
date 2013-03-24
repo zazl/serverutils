@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.pde.ui.EquinoxLauncher">
 <setAttribute key="additional_plugins">
-<setEntry value="org.dojotoolkit.server.util.js.tests:1.0.0.qualifier:default:true"/>
+<setEntry value="org.dojotoolkit.server.util.js.tests:0.3.1:default:true"/>
 </setAttribute>
 <booleanAttribute key="append.args" value="true"/>
 <booleanAttribute key="automaticAdd" value="true"/>
