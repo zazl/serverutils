@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -33,11 +34,11 @@ public abstract class CachingResourceLoader implements ResourceLoader {
 			synchronized (timestampLookup) {
 				long timestamp = -1;
 				try {
-					timestamp = url.openConnection().getLastModified();
+					timestamp = getTimestamp(url);
 				} catch (IOException e) {
 					logger.logp(Level.INFO, getClass().getName(), "getResource", "Unable to obtain a last modified volue for path ["+path+"]");					
 				}
-	
+				
 				timestampLookup.put(path, new URLTimestamp(url, timestamp));
 			}
 		}
@@ -52,7 +53,7 @@ public abstract class CachingResourceLoader implements ResourceLoader {
 		URLTimestamp urlTimestamp = timestampLookup.get(path);
 		if (urlTimestamp != null) {
 			try {
-				return urlTimestamp.url.openConnection().getLastModified();
+				return getTimestamp(urlTimestamp.url);
 			} catch (IOException e) {
 				logger.logp(Level.INFO, getClass().getName(), "_getTimestamp", "Unable to obtain a last modified volue for path ["+path+"]");					
 				return -1;
@@ -70,7 +71,7 @@ public abstract class CachingResourceLoader implements ResourceLoader {
 				URLTimestamp urlTimestamp = timestampLookup.get(path);
 				if (urlTimestamp != null) {
 					try {
-						long lastModified = urlTimestamp.url.openConnection().getLastModified();
+						long lastModified = getTimestamp(urlTimestamp.url);
 						if (lastModified != urlTimestamp.lastModified) {
 							urlTimestamp.lastModified = lastModified;
 							useCache = false;
@@ -140,6 +141,20 @@ public abstract class CachingResourceLoader implements ResourceLoader {
 	
 	protected StringBuffer filter(StringBuffer sb, String path) throws IOException {
 		return sb;
+	}
+	
+	private static long getTimestamp(URL url) throws IOException {
+		long timestamp = -1;
+		InputStream is = null;
+
+		try {
+			URLConnection urlConnection = url.openConnection();
+			is = urlConnection.getInputStream();
+			timestamp = urlConnection.getLastModified();
+		} finally {
+            try {is.close();}catch (IOException e) {}
+		}
+		return timestamp;
 	}
 	
 	protected abstract URL _getResource(String path) throws IOException;
