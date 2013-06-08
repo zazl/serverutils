@@ -21,8 +21,14 @@ public abstract class CachingResourceLoader implements ResourceLoader {
 	private static Logger logger = Logger.getLogger("org.dojotoolkit.server.util");
 	private Map<String, StringBuffer> cache = null;
 	private Map<String, URLTimestamp> timestampLookup = null;
+	private boolean useTimestamps = true;
 	
 	public CachingResourceLoader() {
+		this(true);
+	}
+	
+	public CachingResourceLoader(boolean useTimestamps) {
+		this.useTimestamps = useTimestamps;
 		cache = new HashMap<String, StringBuffer>();
 		timestampLookup = new HashMap<String, URLTimestamp>();
 	}
@@ -33,12 +39,13 @@ public abstract class CachingResourceLoader implements ResourceLoader {
 		if (url != null) {
 			synchronized (timestampLookup) {
 				long timestamp = -1;
-				try {
-					timestamp = getTimestamp(url);
-				} catch (IOException e) {
-					logger.logp(Level.INFO, getClass().getName(), "getResource", "Unable to obtain a last modified volue for path ["+path+"]");					
+				if (useTimestamps) {
+					try {
+						timestamp = getTimestamp(url);
+					} catch (IOException e) {
+						logger.logp(Level.INFO, getClass().getName(), "getResource", "Unable to obtain a last modified volue for path ["+path+"]");					
+					}
 				}
-				
 				timestampLookup.put(path, new URLTimestamp(url, timestamp));
 			}
 		}
@@ -51,7 +58,7 @@ public abstract class CachingResourceLoader implements ResourceLoader {
 	
 	private synchronized long _getTimestamp(String path) {
 		URLTimestamp urlTimestamp = timestampLookup.get(path);
-		if (urlTimestamp != null) {
+		if (urlTimestamp != null && useTimestamps) {
 			try {
 				return getTimestamp(urlTimestamp.url);
 			} catch (IOException e) {
@@ -69,7 +76,7 @@ public abstract class CachingResourceLoader implements ResourceLoader {
 		if (useCache) {
 			synchronized (timestampLookup) {
 				URLTimestamp urlTimestamp = timestampLookup.get(path);
-				if (urlTimestamp != null) {
+				if (urlTimestamp != null && useTimestamps) {
 					try {
 						long lastModified = getTimestamp(urlTimestamp.url);
 						if (lastModified != urlTimestamp.lastModified) {
