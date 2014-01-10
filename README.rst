@@ -20,7 +20,7 @@ NOTE: This step is also required for setting up a development environment for th
 
 1) Make a directory called "zazldev" and cd into it.
 2) In the "zazldev" directory create a new directory called "workspace"
-2) Download the Zazl Eclipse Target Platform from http://www.zazl.org/downloads/0.3.0/zazltargetplatform.zip and unzip into the "zazldev" directory. 
+2) Download the Zazl Eclipse Target Platform from the Zazl download page (http://www.zazl.org/?page_id=5)and unzip into the "zazldev" directory. 
 3) Clone the Server Utils git repo (git clone https://github.com/zazl/serverutils.git) from within the "zazldev/workspace" directory.
 
 To develop and build with Eclipse:
@@ -33,4 +33,4 @@ To develop and build with Eclipse:
 Zazl Eclipse Target Platform
 ============================
 
-The Zazl Target Platform zip file (http://www.zazl.org/downloads/0.4.6/zazltargetplatform.zip) contains the prereqs that Zazl requires to run and build.
+The Zazl Target Platform zip file (http://www.zazl.org/?page_id=5) contains the prereqs that Zazl requires to run and build.
